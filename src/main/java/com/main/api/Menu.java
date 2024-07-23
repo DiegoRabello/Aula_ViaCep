@@ -13,7 +13,8 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nMenu: \n");
         System.out.println("1- Cadastrar Usuário");
-        System.out.println("2- Sair");
+        System.out.println("2- Buscar Cep");
+        System.out.println("3- Sair");
         System.out.println("Digite a opção desejada: ");
         int opcao = scanner.nextInt();
         scanner.nextLine();
@@ -24,16 +25,7 @@ public class Menu {
                 break;
             case 2:
 
-                Endereco endereco = bucarCep("25710193");
-                if (endereco != null) {
-                    System.out.println("Endereço encontrado:");
-                    System.out.println("Rua: " + endereco.getLogradouro());
-                    System.out.println("Bairro: " + endereco.getBairro());
-                    System.out.println("Cidade: " + endereco.getLocalidade());
-                    System.out.println("UF: " + endereco.getUf());
-                } else {
-                    System.out.println("Cep não encontrado!");
-                }
+                bucarCep();
                 break;
             default:
                 break;
@@ -67,21 +59,9 @@ public class Menu {
                 System.out.println("Informações Cadastradas com Sucesso!");
 
                 Usuario usuario = new Usuario(nome, telefone, email);
-
-                System.out.println("Digite Seu cep: ");
-                String cep = scanner.nextLine();
-
-                Endereco endereco = bucarCep(cep);
+                System.out.println("Cadastre agora seu Endereço.");
+                bucarCep();
                 
-                if (endereco != null) {
-                    System.out.println("Endereço encontrado:");
-                    System.out.println("Rua: " + endereco.getLogradouro());
-                    System.out.println("Bairro: " + endereco.getBairro());
-                    System.out.println("Cidade: " + endereco.getLocalidade());
-                    System.out.println("UF: " + endereco.getUf());
-                } else {
-                    System.out.println("Cep não encontrado!");
-                }
                 break;
 
             } else {
@@ -93,12 +73,16 @@ public class Menu {
         }
     }
 
-    public static Endereco bucarCep(String cep) {
-
+    public static Endereco bucarCep() {
+        Scanner scanner = new Scanner(System.in);
+        
         Endereco endereco = new Endereco();
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://viacep.com.br/ws/" + cep + "/json/";
+        System.out.println("Digite Seu Cep: ");
+        String cepDigitado = scanner.nextLine();
+        
+        String url = "https://viacep.com.br/ws/" + cepDigitado + "/json/";
         Request request = new Request.Builder().url(url).build();
 
         try {
@@ -109,6 +93,15 @@ public class Menu {
                 Gson gson = new Gson();
 
                 endereco = gson.fromJson(result, Endereco.class);
+                if (endereco != null) {
+                    System.out.println("\nEndereço encontrado:");
+                    System.out.println("Rua: " + endereco.getLogradouro());
+                    System.out.println("Bairro: " + endereco.getBairro());
+                    System.out.println("Cidade: " + endereco.getLocalidade());
+                    System.out.println("UF: " + endereco.getUf());
+                } else {
+                    System.out.println("Cep não encontrado!");
+                }
 
             } else {
                 System.out.println("Cep não encontrado!" + response.code());
@@ -118,5 +111,7 @@ public class Menu {
             return null;
         }
         return endereco;
+        
+
     }
 }
