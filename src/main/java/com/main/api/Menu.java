@@ -24,9 +24,10 @@ public class Menu {
                 cadastraUsuario();
                 break;
             case 2:
-
                 bucarCep();
                 break;
+            case 3:
+                System.exit(0);
             default:
                 break;
         }
@@ -61,7 +62,7 @@ public class Menu {
                 Usuario usuario = new Usuario(nome, telefone, email);
                 System.out.println("Cadastre agora seu Endereço.");
                 bucarCep();
-                
+
                 break;
 
             } else {
