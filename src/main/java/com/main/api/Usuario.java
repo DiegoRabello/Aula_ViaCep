@@ -10,11 +10,15 @@ public class Usuario {
     private static String telefone;
 
     // construtor
-    public Usuario(String nome, String cpf, String email) {
+    public Usuario(String nome, String cpf, String email,String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
+        this.telefone = telefone;
 
+    }
+    public Usuario () {
+        
     }
 
     // getters e setters

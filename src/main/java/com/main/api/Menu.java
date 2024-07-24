@@ -36,19 +36,28 @@ public class Menu {
     public static void cadastraUsuario() {
         boolean sair = false;
         while (sair == false) {
-
+           
             Scanner scanner = new Scanner(System.in);
+            Usuario usuario = new Usuario();
             System.out.println("Digite o Nome do usuário: ");
             String nome = scanner.nextLine();
+            usuario.setNome(nome);
+
             System.out.println("Digite o Cpf do usuário: ");
             String cpf = scanner.nextLine();
+            usuario.setCpf(cpf);
+            
             System.out.println("Digite o Email do usuário: ");
             String email = scanner.nextLine();
+            usuario.setEmail(email);
+            
             System.out.println("Digite o Telefone do usuário: ");
             String telefone = scanner.nextLine();
+            usuario.setTelefone(telefone);
 
+            scanner.nextLine();
             System.out.println("nonfirme Suas Informações Pessoais: " +
-                    "\nNome: " + nome +
+                    "\nNome: " + usuario.getNome() +
                     "\nCpf: " + cpf +
                     "\nEmail: " + email +
                     "\nTelefone: " + telefone);
@@ -59,9 +68,10 @@ public class Menu {
 
                 System.out.println("Informações Cadastradas com Sucesso!");
 
-                Usuario usuario = new Usuario(nome, telefone, email);
+                
                 System.out.println("Cadastre agora seu Endereço.");
                 bucarCep();
+
 
                 break;
 
@@ -94,22 +104,29 @@ public class Menu {
                 Gson gson = new Gson();
 
                 endereco = gson.fromJson(result, Endereco.class);
-                if (endereco != null) {
-                    System.out.println("\nEndereço encontrado:");
-                    System.out.println("Rua: " + endereco.getLogradouro());
-                    System.out.println("Bairro: " + endereco.getBairro());
-                    System.out.println("Cidade: " + endereco.getLocalidade());
-                    System.out.println("UF: " + endereco.getUf());
-                } else {
-                    System.out.println("Cep não encontrado!");
-                }
-
+                
             } else {
                 System.out.println("Cep não encontrado!" + response.code());
             }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        System.out.println("Digite um Complemento para seu Endereco: ");
+        endereco.setComplemento(scanner.nextLine());
+        System.out.println("Digite o Número da Sua Casa: ");
+        endereco.setNumero(scanner.nextLine());
+        if (endereco != null) {
+            System.out.println("\nEndereço encontrado:");
+            System.out.println("Rua: " + endereco.getLogradouro());
+            System.out.println("Bairro: " + endereco.getBairro());
+            System.out.println("Cidade: " + endereco.getLocalidade());
+            System.out.println("UF: " + endereco.getUf());
+            System.out.println("Complemento: " + endereco.getComplemento());
+            System.out.println("Número: " + endereco.getNumero());
+            System.out.println("CEP: " + endereco.getCep());
+        } else {
+            System.out.println("Cep não encontrado!");
         }
         return endereco;
         
